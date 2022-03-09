@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<style>
+
+	.root {
+		overflow:hidden ;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+	}
+	.background {
+		position: fixed;
+		margin: 0;
+		width: 100vw;
+		overflow: hidden;
+		z-index: 1;
+	}
+
+	.backgroundTop {
+		position: fixed;
+		margin: 0;
+		width: 100vw;
+		overflow: hidden;
+		z-index: 10;
+		pointer-events: none;
+	}
+
+	.plank {
+		width: 77vw;
+		height: 4.5vw;
+		position: relative;
+		z-index: 9;
+		left: 38.7vw;
+		top: 8.9vw;		
+	}
+
+	.plankb {
+		width: 77vw;
+		height: 4.5vw;
+		position: relative;
+		z-index: 9;
+		left: 38.7vw;
+		top: 8.9vw;
+	}
+
+	.plank0 {
+		left: 11.47vw;
+	}
+
+	.plank1 {
+		left: 21.2vw;
+	}
+
+	.plank2 {
+		left: 11.4vw;
+	}
+
+	.plank3 {
+		left: 11.1vw;
+	}
+
+	.plank4 {
+		left: 11.9vw;
+	}
+
+	.plank5 {
+		left: 11.46vw;
+	}
+
+	.plank00 {
+		left: -17vw;
+		opacity: 0;
+	}
+
+	.plank01 {
+		left: 40.5vw;
+		opacity: 0;
+	}
+
+	.plank02 {
+		left: 21.5vw;
+		opacity: 0;
+	}
+
+	.plank03 {
+		left: 2.4vw;
+		opacity: 0;
+	}
+
+	.plank04 {
+		left: 40.9vw;
+		opacity: 0;
+	}
+
+	.plank05 {
+		left: 2.3vw;
+		opacity: 0;
+	}
+
+	.plankContainerBlank {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		overflow: hidden;
+	}
+
+	.plankContainer {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		overflow: hidden;
+		opacity: 1;
+	}
+</style>
+
+
+<body class="root" oncontextmenu="return false;">
+	<div class="background" ondragstart="return false">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629310/castleDoor/BG_Updated_ksxr7v.png" width="100%" height="100%">
+
+	</div>
+	<div class='backgroundTop' draggable="false">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1623603337/castleDoor/Door_TopLayer_qi2lky.png" width="100%">
+	</div>
+	
+	<div class="plankContainer" id="letters">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629276/castleDoor/0000_nsixby.png" class="plank plank0" id="plank0" width="100%" height="100%">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629272/castleDoor/0001_wfzloa.png" class="plank plank1" id="plank1" width="100%" height="100%">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629278/castleDoor/0002_qaeqjh.png" class="plank plank2" id="plank2" width="100%" height="100%">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629260/castleDoor/0003_ljwxin.png" class="plank plank3" id="plank3" width="100%" height="100%">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629262/castleDoor/0004_efgqm3.png" class="plank plank4" id="plank4" width="100%" height="100%">
+		<img src="https://res.cloudinary.com/danfgoisb/image/upload/v1621629268/castleDoor/0005_zzt40s.png" class="plank plank5" id="plank5" width="100%" height="100%">
+	</div>
+</body>
+
+<script>
+
+const planks = document.querySelectorAll(".plank");
+
+const plank0 = document.getElementById('plank0');
+const plank1 = document.getElementById('plank1');
+const plank2 = document.getElementById('plank2');
+const plank3 = document.getElementById('plank3');
+const plank4 = document.getElementById('plank4');
+const plank5 = document.getElementById('plank5');
+
+
+
+function fadeIn(){
+		let left00 = plank0.style.left.replace(/[^\d.-]/g, '');
+		let left01 = plank1.style.left.replace(/[^\d.-]/g, '');
+		let left02 = plank2.style.left.replace(/[^\d.-]/g, '');
+		let left03 = plank3.style.left.replace(/[^\d.-]/g, '');
+		let left04 = plank4.style.left.replace(/[^\d.-]/g, '');
+		let left05 = plank5.style.left.replace(/[^\d.-]/g, '');
+
+		if( left00 <= -15.5 && left00 >= -19 &&
+			left01 <= 42.2 && left01 >= 38 &&
+			left02 <= 24 && left02 >= 19.9 &&
+			left03 <= 5 && left03  >= 1.2 &&
+			left04 <= 42.5 && left04 >= 39.7 &&
+			left05 <= 3.7 && left05 >= 1.25)
+			{
+							plank0.style.left = -33 +'vw';
+							plank0.style.transition = 'all 3s';
+							plank2.style.left = -33 +'vw';
+							plank2.style.transition = 'all 3s';
+							plank4.style.left = -33 +'vw';
+							plank4.style.transition = 'all 3s';
+							plank1.style.left = 55 +'vw';
+							plank1.style.transition = 'all 3s';
+							plank3.style.left = 55 +'vw';
+							plank3.style.transition = 'all 3s';
+							plank5.style.left = 55 +'vw';
+							plank5.style.transition = 'all 3s';
+				
+			}
+
+	}
+	document.addEventListener("mouseup", fadeIn);
+	
+	planks.forEach(plank => {
+	
+		plank.addEventListener("mousedown", event =>{
+
+			let shiftX = event.clientX  - plank.getBoundingClientRect().left;
+			let plankPosition = plank.offsetLeft;
+
+			function moveAt(pageX){	
+				plank.style.left = (pageX - shiftX) *  0.07320644216691069 + 'vw';
+			}
+		
+			function onMouseMove(event){
+				if((event.clientX - shiftX) *  0.07320644216691069  > 41.6){
+					plank.style.left = 41.6 + 'vw'
+				}
+				else if ((event.clientX - shiftX) *  0.07320644216691069 < -17.3){
+					plank.style.left = -17.3 + 'vw'
+				}
+				else
+				moveAt(event.clientX);
+			}
+
+			document.addEventListener("mousemove", onMouseMove)
+
+			plank.onmouseup = function(){		
+				document.removeEventListener("mousemove", onMouseMove);
+				plank.onmouseup = null;
+			}
+
+			document.body.onmouseleave = function() {		
+				document.removeEventListener("mousemove", onMouseMove);
+			}
+			plank.onmouseleave = function() {
+				document.removeEventListener("mousemove", onMouseMove);
+			}
+		})
+
+		plank.ondragstart = function(){
+			return false;
+		}
+	});
+</script>
+</html>
+

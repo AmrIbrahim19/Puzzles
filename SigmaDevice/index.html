@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+            *{
+                box-sizing: border-box;
+                margin: 0%;    
+            }
+            body{
+                background-color: rgb(22, 22, 22);
+            }
+            .container{
+                position: absolute; ;
+                width: 1366px;   
+            }
+            .circlesContainer{
+                width:  599.576px;
+                height: 413.91px;
+                margin-left: 385px;
+                top: 70px;
+                overflow: hidden;
+            }
+            .draggableCircleOne{
+                position: relative;
+                top: 184.5px;
+                left: 54.5px;
+                width: 100px ;
+                height: 100px;
+                overflow: hidden;
+                border-radius: 50%;
+                opacity: 0.5;
+            }
+            .draggableCircleTwo{
+                position: relative;
+                border: none;
+                left : 255.5px;
+                top: 204.5px;
+                width: 100px ;
+                height: 100px;
+                overflow: hidden;
+                border-radius: 50%;
+                opacity: 0.5;
+            }
+            .draggableCircleThree{
+                position: relative;
+                width: 100px ;
+                height: 100px;
+                left: 399px;
+                top: -55px;
+                overflow: hidden;
+                border-radius: 50%;
+                opacity: 0.5;
+            }
+            .topN{
+                position: absolute;
+                font-size: 55px;
+                z-index: 12;
+                left: 620px;
+                top: 55px;
+                color: rgb(102, 236, 102);
+                font-family: custom;
+            }
+            .firstN{
+                position: absolute;
+                font-size: 40px;
+                z-index: 12;
+                left: 445px;
+                top: 448px;
+                font-family: custom;
+                color: rgb(102, 236, 102);
+            }
+            .secN{
+                position: absolute;
+                font-size: 40px;
+                z-index: 12;
+                left: 680px;
+                top: 448px;
+                font-family: custom;
+                color: rgb(102, 236, 102);
+            }
+            .thirdN{
+                position: absolute;
+                font-size: 40px;
+                z-index: 12;
+                left: 883px;
+                top: 448px;
+                font-family: custom;
+                color: rgb(102, 236, 102);
+            }
+            @font-face {
+                font-family: custom;
+                src: url(https://res.cloudinary.com/danfgoisb/raw/upload/v1611154992/Triangulate/ARCADECLASSIC_gww32e.TTF);
+            }
+            .cropped{
+                position: absolute;
+                z-index: 100;
+                margin-top: 0;
+                width: 1366px;
+            }        
+          </style>
+    </head>
+        <body>
+            <div class="cropped">
+                <img src="https://res.cloudinary.com/danfgoisb/image/upload/v1611154976/Triangulate/Triangulate_BGCropped_f7hboc.png" width="100%" height="100%"/>
+            </div>
+            <div class="container">
+                <img src='https://res.cloudinary.com/danfgoisb/image/upload/v1611154930/Triangulate/Triangulate_BG_etx4r5.png' alt='Map' width='100%' height='100%'/>
+            </div>
+
+            <div class="circlesContainer">
+            <div id='circle' class='draggableCircleOne' onclick="SzToggle()">
+                <img src="https://res.cloudinary.com/danfgoisb/image/upload/v1611154951/Triangulate/Radius_krst2y.png" alt='circle' width='100%' height='100%' draggable="false"/>
+            </div>
+            
+            <div id='circleTwo' class='draggableCircleTwo' onclick="zToggle()">
+                <img src="https://res.cloudinary.com/danfgoisb/image/upload/v1611154951/Triangulate/Radius_krst2y.png" alt='circle' width='100%' height='100%' draggable="false"/>
+            </div>
+            <div id='circleThree' class='draggableCircleThree' onclick="tzToggle()">
+                <img src="https://res.cloudinary.com/danfgoisb/image/upload/v1611154951/Triangulate/Radius_krst2y.png" alt='circle' width='100%' height='100%' draggable="false"/>
+            </div>
+            <h3 id="topN" class="topN">0000</h3>
+            <h3 id="firstN" class="firstN">0</h3>
+            <h3 id="secN" class="secN">0</h3>
+            <h3 id="thirdN" class="thirdN">0</h3>
+        </div>
+
+        <script>     
+             var element = document.getElementById('circleTwo');
+             var initialPositionX = 0
+             var initialPositionY = 0 
+
+             var currentPositionX = 0
+             var currentPositionY = 0
+
+             var prevPositionX = initialPositionX
+             var prevPositionY = initialPositionY
+
+             var currentDimensions = element.getBoundingClientRect()
+             var currentWidth = currentDimensions.width
+             var currentHeight = currentDimensions.height
+             var centerX = element.offsetLeft + (currentWidth/2)
+             var centerY = element.offsetTop + (currentHeight/2)
+             var distance = 0
+             
+
+             var leftSide = false
+             var rightSide = false
+             var top = false
+             var bottom =false
+             var newZindex2 = element.style.zIndex
+             var scaleCircle = 1
+             var secNo = 0
+
+//zIndex toggler 
+            function zToggle(){              
+                    newZindex2 = 10
+                    element.style.zIndex = newZindex2
+                    element.style.opacity = 1
+                    Selement.style.zIndex = 1
+                    Selement.style.opacity = 0.5
+                    telement.style.zIndex = 1
+                    telement.style.opacity = 0.5
+            }             
+    
+// on firstClick
+             element.addEventListener('mousedown', initResize, false);
+
+// mousemove & mouseup
+             function initResize(e) {
+             window.addEventListener('mousemove', Resize, false);
+             window.addEventListener('mouseup', stopResize, false);
+             
+             initialPositionX = e.clientX 
+             initialPositionY = e.clientY
+
+
+             }
+//resize the circle relative to the position of dragging (left or right part of the circle)
+             function Resize(e) {
+                currentPositionX = e.clientX
+                currentPositionY = e.clientY
+
+// getting coordinates while resizing (x ,y)                
+                var newDimensions = element.getBoundingClientRect()
+                var newWidth = newDimensions.width
+                distance = Math.sqrt((currentPositionX - centerX) * (currentPositionX - centerX) + (currentPositionY - centerY) * (currentPositionY - centerY))
+                if(element.offsetLeft + (currentWidth/2) < currentPositionX){
+                    leftSide = false
+                    rightSide = true
+                }
+                else if(element.offsetLeft + (currentWidth/2) >= currentPositionX){
+                    rightSide = false
+                    leftSide = true
+                }
+                  
+                if((currentPositionX > prevPositionX) && rightSide == true){
+                    scaleCircle += scaleCircle <= 5 ? 0.04 : 0
+                    prevPositionX = currentPositionX
+                    secNo += scaleCircle <= 5 ? 1 : 0
+                    if(scaleCircle == 5.0000000000000036){secNo = 100}
+                    document.getElementById('secN').innerHTML = secNo
+                   
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+               
+                else if((currentPositionX < prevPositionX) && rightSide == true){
+                    scaleCircle -= scaleCircle >= 1 ? 0.04 : 0
+                    prevPositionX = currentPositionX
+                    secNo -= scaleCircle > 1 ? 1 : 0
+                    if(scaleCircle == 1){secNo = 0}
+                    document.getElementById('secN').innerHTML = secNo
+
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+
+                else if(currentPositionX > prevPositionX && leftSide == true){
+                    scaleCircle -= scaleCircle >= 1 ? 0.04 : 0
+                    prevPositionX = currentPositionX
+                    prevPositionY = currentPositionY
+                    secNo -= scaleCircle > 1 ? 1 : 0
+                    if(scaleCircle == 1){secNo = 0}
+                    document.getElementById('secN').innerHTML = secNo
+
+                   
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+                else if(currentPositionX < prevPositionX && leftSide == true){
+                    scaleCircle += scaleCircle <= 5 ? 0.04 : 0 
+                    prevPositionX = currentPositionX
+                    secNo += scaleCircle <= 5 ? 1 : 0
+                    if(scaleCircle == 5.0000000000000036){secNo = 100}
+                    document.getElementById('secN').innerHTML = secNo
+
+                   
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+
+                }
+            
+           
+                element.style.transform =  `scale(${scaleCircle})`;
+                console.log(newZindex2)
+             }
+//on mouseup remove eventListeners
+             function stopResize(e) {
+                 window.removeEventListener('mousemove', Resize, false);
+                 window.removeEventListener('mouseup', stopResize, false);
+                 releasePosition = e.clientX
+               
+
+             }
+
+// second circle
+             var Selement = document.getElementById('circle');
+             var SinitialPositionX = 0
+             var SinitialPositionY = 0 
+
+             var ScurrentPositionX = 0
+             var ScurrentPositionY = 0
+
+             var SprevPositionX = SinitialPositionX
+             var SprevPositionY = SinitialPositionY
+
+             var ScurrentDimensions = Selement.getBoundingClientRect()
+             var ScurrentWidth = ScurrentDimensions.width
+             var ScurrentHeight = ScurrentDimensions.height
+
+             var ScenterX = Selement.offsetLeft + (ScurrentWidth/2)
+             var ScenterY = Selement.offsetTop + (ScurrentHeight/2)
+             var Sdistance = 0
+             var newZindex = Selement.style.zIndex
+
+             var SleftSide = false
+             var SrightSide = false
+             var Stop = false
+             var Sbottom =false
+             var firstNo = 0
+             var SscaleCircle = 1
+    
+// on firstClick
+             Selement.addEventListener('mousedown', SinitResize, false);
+
+//zToggle    
+            function SzToggle(){
+               
+                    newZindex = 10
+                    Selement.style.zIndex = newZindex
+                    Selement.style.opacity = 1
+                    element.style.zIndex = 1
+                    element.style.opacity =0.5
+                    telement.style.zIndex = 1
+                    telement.style.opacity = 0.5
+            }
+// mousemove & mouseup
+             function SinitResize(e) {
+             window.addEventListener('mousemove', SResize, false);
+             window.addEventListener('mouseup', SstopResize, false);
+             
+             SinitialPositionX = e.clientX 
+             SinitialPositionY = e.clientY
+
+             }
+//resize the circle relative to the position of dragging (left or right part of the circle)
+             function SResize(e) {
+                ScurrentPositionX = e.clientX
+                ScurrentPositionY = e.clientY
+                var SnewDimensions = Selement.getBoundingClientRect()
+                var SnewWidth = SnewDimensions.width
+                Sdistance = Math.sqrt((ScurrentPositionX - ScenterX) * (ScurrentPositionX - ScenterX) + (ScurrentPositionY - ScenterY) * (ScurrentPositionY - ScenterY))
+                
+                if(Selement.offsetLeft + (ScurrentWidth/2) < ScurrentPositionX){
+                    SleftSide = false
+                    SrightSide = true
+                }
+                else if(Selement.offsetLeft + (ScurrentWidth/2) >= ScurrentPositionX){
+                    SrightSide = false
+                    SleftSide = true
+                }
+
+                
+                   
+
+                if((ScurrentPositionX > SprevPositionX) && SrightSide == true){
+                    SscaleCircle += SscaleCircle < 5 ? 0.04 : 0 
+                    SprevPositionX = ScurrentPositionX
+                    firstNo += scaleCircle <= 5 ? 1 : 0
+                    if(SscaleCircle == 5.0000000000000036){firstNo = 100}
+                    document.getElementById('firstN').innerHTML = firstNo
+
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                    
+                }
+               
+
+                else if(ScurrentPositionX < SprevPositionX && SrightSide == true){
+                    SscaleCircle -= SscaleCircle >= 1 ? 0.04 : 0
+                    SprevPositionX = ScurrentPositionX
+                    SprevPositionY = ScurrentPositionY
+                    firstNo -= SscaleCircle >= 1 ? 1 : 0
+                    if(SscaleCircle == 1){firstNo = 0}
+                    document.getElementById('firstN').innerHTML = firstNo
+
+                  
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+
+                else if(ScurrentPositionX > SprevPositionX && SleftSide == true){
+                    SscaleCircle -= SscaleCircle >= 1 ? 0.04 : 0
+                    SprevPositionX = ScurrentPositionX
+                    SprevPositionY = ScurrentPositionY
+                    firstNo -= SscaleCircle >= 1 ? 1 : 0
+                    if(SscaleCircle == 1){firstNo = 0}
+                    document.getElementById('firstN').innerHTML = firstNo
+
+                   
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+           
+                else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                    
+                }
+                else if((ScurrentPositionX < SprevPositionX) && SleftSide == true){
+                    SscaleCircle += SscaleCircle < 5 ? 0.04 : 0 
+                    SprevPositionX = ScurrentPositionX
+                    firstNo += scaleCircle <= 5 ? 1 : 0
+                    document.getElementById('firstN').innerHTML = firstNo
+
+                    if(SscaleCircle == 5.0000000000000036){firstNo = 100}
+                    document.getElementById('firstN').innerHTML = firstNo
+
+                   
+                    
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+               
+
+                Selement.style.transform =  `scale(${SscaleCircle})`;
+                 
+             }
+//on mouseup remove eventListeners
+             function SstopResize(e) {
+                 window.removeEventListener('mousemove', SResize, false);
+                 window.removeEventListener('mouseup', SstopResize, false);
+                 SreleasePosition = e.clientX
+
+             }
+
+// third circle
+
+
+var telement = document.getElementById('circleThree');
+             var tinitialPositionX = 0
+             var tinitialPositionY = 0 
+
+             var tcurrentPositionX = 0
+             var tcurrentPositionY = 0
+
+             var tprevPositionX = tinitialPositionX
+             var tprevPositionY = tinitialPositionY
+
+             var tcurrentDimensions = telement.getBoundingClientRect()
+             var tcurrentWidth = tcurrentDimensions.width
+             var tcurrentHeight = tcurrentDimensions.height
+
+             var tcenterX = telement.offsetLeft + (tcurrentWidth/2)
+             var tcenterY = telement.offsetTop + (tcurrentHeight/2)
+             var tdistance = 0
+
+             var tleftSide = false
+             var trightSide = false
+             var ttop = false
+             var tbottom =false
+             var thirdNo = 0
+             var tscaleCircle = 1
+    
+// on firstClick
+             telement.addEventListener('mousedown', tinitResize, false);
+
+//Ztoggle
+
+               function tzToggle(){
+               telement.style.zIndex = 10
+               telement.style.opacity = 1
+               Selement.style.zIndex = 1
+               Selement.style.opacity = 0.5
+               element.style.zIndex = 1
+               element.style.opacity =0.5
+       }
+
+// mousemove & mouseup
+             function tinitResize(e) {
+             window.addEventListener('mousemove', tResize, false);
+             window.addEventListener('mouseup', tstopResize, false);
+             
+             tinitialPositionX = e.clientX 
+             tinitialPositionY = e.clientY
+
+             }
+//resize the circle relative to the position of dragging (left or right part of the circle)
+             function tResize(e) {
+                tcurrentPositionX = e.clientX
+                tcurrentPositionY = e.clientY
+                var tnewDimensions = telement.getBoundingClientRect()
+                var tnewWidth = tnewDimensions.width
+                tdistance = Math.sqrt((tcurrentPositionX - tcenterX) * (tcurrentPositionX - tcenterX) + (tcurrentPositionY - tcenterY) * (tcurrentPositionY - tcenterY))
+                
+                if(telement.offsetLeft + (tcurrentWidth/2) < tcurrentPositionX){
+                    tleftSide = false
+                    trightSide = true
+                }
+                else if(telement.offsetLeft + (tcurrentWidth/2) >= tcurrentPositionX){
+                    trightSide = false
+                    tleftSide = true
+                }
+
+
+                if((tcurrentPositionX > tprevPositionX) && (trightSide == true)){
+                    tscaleCircle += tscaleCircle < 5 ? 0.04 : 0 
+                    tprevPositionX = tcurrentPositionX
+                    thirdNo += tscaleCircle < 5 ? 1 : 0
+                    if(tscaleCircle == 5.0000000000000036){thirdNo = 100}
+                    document.getElementById('thirdN').innerHTML = thirdNo
+
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+               
+
+                else if((tcurrentPositionX < tprevPositionX) && trightSide == true){
+                    tscaleCircle -= tscaleCircle >= 1 ? 0.04 : 0
+                    tprevPositionX = tcurrentPositionX
+                    tprevPositionY = tcurrentPositionY
+                    thirdNo -= tscaleCircle > 1 ? 1 : 0
+                    if(tscaleCircle == 1){thirdNo = 0}
+                    document.getElementById('thirdN').innerHTML = thirdNo
+
+                    if(tscaleCircle < 2.3) {
+                    var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+                   
+                    }
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+
+                else if((tcurrentPositionX > tprevPositionX) && tleftSide == true){
+                    tscaleCircle -= tscaleCircle >= 1 ? 0.04 : 0
+                    tprevPositionX = tcurrentPositionX
+                    tprevPositionY = tcurrentPositionY
+                    thirdNo -= tscaleCircle > 1 ? 1 : 0
+                    if(tscaleCircle == 1){thirdNo = 0}
+                    document.getElementById('thirdN').innerHTML = thirdNo
+
+                  
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                    
+                }
+                else if((tcurrentPositionX < tprevPositionX) && (tleftSide == true)){
+                    tscaleCircle += tscaleCircle < 5 ? 0.04 : 0 
+                    tprevPositionX = tcurrentPositionX
+                    thirdNo += tscaleCircle < 5 ? 1 : 0 
+                    if(tscaleCircle == 5.0000000000000036){thirdNo = 100}
+                    document.getElementById('thirdN').innerHTML = thirdNo
+                   
+                    if(secNo == 65 && firstNo == 75 && thirdNo == 85){
+                 topNo = 5698
+                 document.getElementById('topN').innerHTML = topNo
+             }    
+             else {
+                var topNo = Math.floor(Math.random() * 5696)
+                    document.getElementById('topN').innerHTML = topNo
+             }
+                   
+                }
+            
+                telement.style.transform =  `scale(${tscaleCircle})`;
+                 
+             }
+//on mouseup remove eventListeners
+             function tstopResize(e) {
+                 window.removeEventListener('mousemove', tResize, false);
+                 window.removeEventListener('mouseup', tstopResize, false);
+                 treleasePosition = e.clientX
+             }
+                
+            </script>
+        </body>
+</html>
